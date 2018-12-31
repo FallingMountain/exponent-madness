@@ -313,9 +313,9 @@ function abbreviate(i,short) {
 		if(i==9) return "No";
 	}
 	var returning = ''
-	var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
-	var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
-	var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
+	var units = ["","U","D","T","Qd","Qt","Sx","Sp","O","N"]; // prefixes for ones place
+	var tens = ["","Dc","Vg","Tg","Qa","Qi","Se","St","Og","Ng"]; // prefixes for tens place
+	var hundreds = ["","Ce","Dn","Tc","Qe","Qu","Sc","Si","Oe","Ne"]
 	var thousands = ['','MI-','MC-','NA-']
 	var i2=Math.floor(i/10);
 	var i3=Math.floor(i2/10);
@@ -331,6 +331,36 @@ function abbreviate(i,short) {
 		}
 		var blah = thousands[j]
 		returning = abbreviate(k,false) + blah + returning
+	}
+	return returning;
+}
+function abbreviate2(i,short) {
+	if(short) {
+		if(i==0) return "K"; // thousand
+		if(i==1) return "M"; // million
+		if(i==2) return "B"; // billion
+		if(i==8) return "Oc";
+		if(i==9) return "No";
+	}
+	var returning = ''
+	var units = ["","U","D","T","Qa","Qi","Sx","Sp","O","N"]; // prefixes for ones place
+	var tens = ["","Dc","Vg","Tg","Qag","Qig","Sxg","Spg","Og","Ng"]; // prefixes for tens place
+	var hundreds = ["","Cn","Dcn","Tcn","Qac","Qic","Sxc","Spx","Ocn","Nc"]
+	var thousands = ['','Mi-','Mc-','Nn-']
+	var i2=Math.floor(i/10);
+	var i3=Math.floor(i2/10);
+	var unit = units[i%10];
+	var ten = tens[i2%10];
+	var hundred = hundreds[i3%10];
+	returning = unit+ten+hundred
+	for(j=Math.floor(Math.log(i)/Math.log(1000));j>0;j--) {
+		var k = Math.floor(i/Math.pow(1000,j)) % 1000
+		if(k === 1) {
+			returning = thousands[j] + returning
+			continue
+		}
+		var blah = thousands[j]
+		returning = abbreviate2(k,false) + blah + returning
 	}
 	return returning;
 }
