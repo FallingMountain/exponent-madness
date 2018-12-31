@@ -294,7 +294,7 @@ function fixNumerals() {
 //otherwise know to pg as the dont touch funcs xD
 
 var currentTab = "main";
-	var notationArray = ["Standard 2.0","Scientific","Engineering","Logarithm"];
+	var notationArray = ['Standard',"Standard 2.0","Scientific","Engineering","Logarithm"];
 function update(set,get){ // for updating display
 	document.getElementById(set).innerHTML=get
 }
@@ -372,12 +372,13 @@ function format(a) { // formats numbers for display
 		e++;
 	}
 	if(a<1000) return Math.round(a*1000)/1000; // show up to 3 places
-	if (game.notation==1) return m+"e"+e; // scientific notation
-	if (game.notation==3) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
+	if (game.notation==2) return m+"e"+e; // scientific notation
+	if (game.notation==4) return "e"+(Math.round(1000*Math.log10(a))/1000); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
-	if(game.notation==0) return m2+abbreviate(e2/3-1,true); // standard notation
-	if(game.notation==2) return m2+"e"+e2; // engineering notation
+	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
+	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
+	if(game.notation==3) return m2+"e"+e2; // engineering notation
 }
 function formatDecimal(a) {
 	var e = a.exponent; // exponent of number
@@ -391,7 +392,8 @@ function formatDecimal(a) {
 	if (game.notation==3) return "e"+(Math.round(a.log(10).mul(1000)).div(1000)); // log notation
 	var e2 = 3*Math.floor(e/3); // exponent for engineering notation
 	var m2 = Math.round(1000*m*Math.pow(10,e-e2))/1000; // base in engineering and standard notations
-	if(game.notation==0) return m2+abbreviate(e2/3-1,true); // standard notation
+	if(game.notation==0) return m2+abbreviate(e2/3-1,true)// standard notation
+	if(game.notation==1) return m2+abbreviate2(e2/3-1,true); // standard 2.0 notation
 	if(game.notation==2) return m2+"e"+e2; // engineering notation
 }
 function formatTime(time) {
