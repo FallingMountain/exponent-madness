@@ -87,7 +87,7 @@ function microPrestige() {
                         essence: game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt(game.num):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt(game.num):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.totalEssence + getMicroEssenceAmt(game.num):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
                 },
                 notation: game.notation,
                 version:game.version,
@@ -182,7 +182,8 @@ function step() { // clicks button
 		game.clickPoints.clickPoints -= 2
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B6')) {
-		   game.microPrestige.essence ++
+			game.microPrestige.essence ++
+			game.microPrestige.totalEssence ++
 		}
 		game.buttonClicks ++
 	}
@@ -192,7 +193,8 @@ function step() { // clicks button
 		game.clickPoints.clickPoints -= 3
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B6')) {
-		   game.microPrestige.essence ++
+			game.microPrestige.essence ++
+			game.microPrestige.totalEssence ++
 		}
 		game.buttonClicks ++
 	}
