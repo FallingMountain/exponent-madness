@@ -181,7 +181,7 @@ function step() { // clicks button
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= 2
 		update("clickPoints",game.clickPoints.clickPoints); 
-		if(game.Bupgs.upgrades.includes('B6')) {
+		if(game.Bupgs.upgrades.includes('B7')) {
 			game.microPrestige.essence ++
 			game.microPrestige.totalEssence ++
 		}
@@ -192,7 +192,7 @@ function step() { // clicks button
 		update("numDisplay",formatDecimal(game.num)); // update number on the page
 		game.clickPoints.clickPoints -= 3
 		update("clickPoints",game.clickPoints.clickPoints); 
-		if(game.Bupgs.upgrades.includes('B6')) {
+		if(game.Bupgs.upgrades.includes('B7')) {
 			game.microPrestige.essence ++
 			game.microPrestige.totalEssence ++
 		}
