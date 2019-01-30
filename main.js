@@ -37,8 +37,8 @@ function getDefaultSave(){
 			upgrades:[]//the var for storing the stuff
 		},
 		Bupgs:{
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
-			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6],
 			upgrades:[]
 		}
 		
@@ -127,7 +127,7 @@ function updateButtons() {
 	else{
 		updateClass('CP2','unbuyable')
 	}
-	for(i=0;i<9;i++) {
+	for(i=0;i<game.Aupgs.possible.length;i++) {
 		if(game.microPrestige.essence >= game.Aupgs.cost[i] && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
 			updateClass('A'+String(i+1),'buyable')
 		}
@@ -138,7 +138,7 @@ function updateButtons() {
 	if(game.microPrestige.essence >= game.Aupgs.repeatable.cost) {
 		updateClass('AR','buyable')
 	}
-	for(i=0;i<10;i++) {
+	for(i=0;i<game.Bupgs.possible.length;i++) {
 		if(game.microPrestige.essence >= game.Bupgs.cost[i] && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
 			updateClass('B'+String(i+1),'buyable')
 		}
@@ -277,6 +277,7 @@ function updateCosts() {
 	update('B7Cost',format(18000))
 	update('B9Cost',format(2.4e5))
 	update('B10Cost',format(8e5))
+	update('B11Cost',format(2.5e6))
 }
 function breakNumerals() {
 	game.numeralsBroken = true
@@ -454,10 +455,14 @@ function load(save) {
 	}
 	if(game.Bupgs === undefined) {
 		game.Bupgs = {
-			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10'],
-			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5],
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6],
 			upgrades:[]
 		}
+	}
+	if(!(game.Bupgs.possible.includes('B11'))) {
+		game.Bupgs.possible = ['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11']
+		game.Bupgs.cost = [     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6]
 	}
 	if(game.clickPoints === undefined) {
 		game.clickPoints = {
