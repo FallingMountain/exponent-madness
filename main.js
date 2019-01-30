@@ -265,6 +265,7 @@ function getMicroEssenceAmt() {
 		return format(Math.pow(game.num,1/(2*Math.pow(game.num.log(10),0.5))))
 	}
 	return format(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))))
+}
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
 	if(number === 5 && !(game.Bupgs.upgrades.includes('B1'))) {
