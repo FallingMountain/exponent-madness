@@ -526,6 +526,7 @@ function load(save) {
 	game.clickPoints.maxCPCost = new Decimal(game.clickPoints.maxCPCost)
 	game.clickPoints.secCPCost = new Decimal(game.clickPoints.secCPCost)
 	game.microPrestige.essence = new Decimal(game.microPrestige.essence)
+	game.microPrestige.totalEssence = new Decimal(game.microPrestige.totalEssence)
 	update("numDisplay",formatDecimal(game.num));
 	update("notationDisplay",game.notation);
 	update("multDisplay",getCurrentClickAmt());
