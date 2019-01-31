@@ -267,9 +267,9 @@ function buyMaxRepeatA(){
 //B Section
 function getMicroEssenceAmt(num) {
 	if(game.Bupgs.upgrades.includes('B11')) {
-		return new Decimal(num.pow(1/(2*Math.pow(Math.max(num.log(10),0),0.5))) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))
+		return new Decimal(num.pow(1/(2*Math.pow(Math.max(num.log(10),0),0.5))).mul(Math.pow(1.1,game.Aupgs.repeatable.amount)))
 	}
-	return new Decimal(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))))
+	return new Decimal(Math.floor(Math.pow(game.num.log(1.1),1/1.5).mul(Math.pow(1.1,game.Aupgs.repeatable.amount))))
 }
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
