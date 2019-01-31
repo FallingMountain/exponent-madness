@@ -18,10 +18,10 @@ function getDefaultSave(){
 			CPPerSecUpgrade: 1,
 		},
         	microPrestige:{
-                        essence:0,
+                        essence: new Decimal(0),
                         times:0,
                         essenceMult:1,
-			totalEssence:0,
+			totalEssence: new Decimal(0),
 		},
         	notation: 0,// standard notation - clearly the best notation!
 		version : 0.2,
@@ -84,10 +84,10 @@ function microPrestige() {
 		},
 		
                 microPrestige:{
-                        essence: game.numeralsBroken? game.microPrestige.essence + getMicroEssenceAmt(game.num):game.microPrestige.essence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+                        essence: game.numeralsBroken? game.microPrestige.essence.add(getMicroEssenceAmt(game.num)):game.microPrestige.essence.add(Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount))),
                         times: game.microPrestige.times+1,
                         essenceMult: game.microPrestige.essenceMult,
-			totalEssence:game.numeralsBroken? game.microPrestige.totalEssence + getMicroEssenceAmt(game.num):game.microPrestige.totalEssence+Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),
+			totalEssence:game.numeralsBroken? game.microPrestige.totalEssence.add(getMicroEssenceAmt(game.num)):game.microPrestige.totalEssence.add(Math.round(Math.pow(1.1,game.Aupgs.repeatable.amount)),)
                 },
                 notation: game.notation,
                 version:game.version,
@@ -128,21 +128,24 @@ function updateButtons() {
 		updateClass('CP2','unbuyable')
 	}
 	for(i=0;i<game.Aupgs.possible.length;i++) {
-		if(game.microPrestige.essence >= game.Aupgs.cost[i] && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
+		if(game.microPrestige.essence.gte(game.Aupgs.cost[i]) && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
 			updateClass('A'+String(i+1),'buyable')
 		}
-		else if(game.microPrestige.essence < game.Aupgs.cost[i] && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
+		else if(game.microPrestige.essence.lt(game.Aupgs.cost[i]) && !(game.Aupgs.upgrades.includes('A'+String(i+1)))) {
 			updateClass('A'+String(i+1),'unbuyable')
 		}
 	}
 	if(game.microPrestige.essence >= game.Aupgs.repeatable.cost) {
 		updateClass('AR','buyable')
 	}
+	else {
+		updateClass('AR','unbuyable')
+	}
 	for(i=0;i<game.Bupgs.possible.length;i++) {
-		if(game.microPrestige.essence >= game.Bupgs.cost[i] && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
+		if(game.microPrestige.essence.gte(game.Bupgs.cost[i]) && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
 			updateClass('B'+String(i+1),'buyable')
 		}
-		else if(game.microPrestige.essence < game.Bupgs.cost[i] && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
+		else if(game.microPrestige.essence.lt(game.Bupgs.cost[i]) && !(game.Bupgs.upgrades.includes('B'+String(i+1)))) {
 			updateClass('B'+String(i+1),'unbuyable')
 		}
 	}
@@ -168,9 +171,9 @@ function getCurrentClickAmt(){
         base *= getPercentageGrowthFactor()
         if (game.Aupgs.upgrades.includes("A7")) base *= 1+Math.log10(game.microPrestige.times)/10
 	base *= game.numUpgradeBoost
-	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + Math.pow(game.microPrestige.essence,0.3)
+	if(game.Aupgs.upgrades.includes('A6')) base *= 1 + game.microPrestige.essence.pow(0.3)
 	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/10
-	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + Math.log10(game.microPrestige.essence + 1)/300
+	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + game.microPrestige.essence.add(1).log(10).div(300)
 	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
         return base
 }
@@ -182,8 +185,8 @@ function step() { // clicks button
 		game.clickPoints.clickPoints -= 2
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B7')) {
-			game.microPrestige.essence ++
-			game.microPrestige.totalEssence ++
+			game.microPrestige.essence = game.microPrestige.essence.add(1)
+			game.microPrestige.totalEssence = game.microPrestige.totalEssence.add(1)
 		}
 		game.buttonClicks ++
 	}
@@ -193,8 +196,8 @@ function step() { // clicks button
 		game.clickPoints.clickPoints -= 3
 		update("clickPoints",game.clickPoints.clickPoints); 
 		if(game.Bupgs.upgrades.includes('B7')) {
-			game.microPrestige.essence ++
-			game.microPrestige.totalEssence ++
+			game.microPrestige.essence = game.microPrestige.essence.add(1)
+			game.microPrestige.totalEssence = game.microPrestige.totalEssence.add(1)
 		}
 		game.buttonClicks ++
 	}
@@ -231,8 +234,8 @@ function CPSecUpgrade() {
 
 function buyAupg(number){
 	var cost = game.Aupgs.cost[number-1]
-	if (game.microPrestige.essence >= cost && !(game.Aupgs.upgrades.includes(game.Aupgs.possible[number-1]))){
-		game.microPrestige.essence -= cost
+	if (game.microPrestige.essence.gte(cost) && !(game.Aupgs.upgrades.includes(game.Aupgs.possible[number-1]))){
+		game.microPrestige.essence = game.microPrestige.essence.sub(cost)
 		game.Aupgs.upgrades.push(game.Aupgs.possible[number-1])
 		if(number === 3) {
 			game.clickPoints.maxClickPoints = 6
@@ -245,8 +248,8 @@ function buyAupg(number){
 
 function buyRepeatA(){
 	var cost = game.Aupgs.repeatable.cost
-	if  (game.microPrestige.essence >= cost){
-		game.microPrestige.essence -= cost
+	if  (game.microPrestige.essence.gte(cost)){
+		game.microPrestige.essence = game.microPrestige.essence.sub(cost)
 		game.microPrestige.essenceMult *= 1.1
 		game.Aupgs.repeatable.amount += 1
 		game.Aupgs.repeatable.cost *= game.Aupgs.repeatable.costMult
@@ -256,7 +259,7 @@ function buyRepeatA(){
 	}
 }
 function buyMaxRepeatA(){
-	while (game.Aupgs.repeatable.cost <= game.microPrestige.essence){
+	while (game.microPrestige.essence.gte(game.Aupgs.repeatable.cost)){
 		buyRepeatA()
 	}
 }
@@ -264,17 +267,17 @@ function buyMaxRepeatA(){
 //B Section
 function getMicroEssenceAmt(num) {
 	if(game.Bupgs.upgrades.includes('B11')) {
-		return num.pow(1/(2*Math.pow(Math.max(num.log(10),0),0.5))) * (Math.pow(1.1,game.Aupgs.repeatable.amount))
+		return new Decimal(num.pow(1/(2*Math.pow(Math.max(num.log(10),0),0.5))) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))
 	}
-	return Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount)))
+	return new Decimal(Math.floor(Math.pow(game.num.log(1.1),1/1.5) * (Math.pow(1.1,game.Aupgs.repeatable.amount))))
 }
 function buyBupg(number) {
 	var cost = game.Bupgs.cost[number-1]
 	if(number === 5 && !(game.Bupgs.upgrades.includes('B1'))) {
 		return
 	}
-	if (game.microPrestige.essence >= cost && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
-		game.microPrestige.essence -= cost
+	if (game.microPrestige.essence.gte(cost) && !(game.Bupgs.upgrades.includes(game.Bupgs.possible[number-1]))){
+		game.microPrestige.essence = game.microPrestige.essence.sub(cost)
 		game.Bupgs.upgrades.push(game.Bupgs.possible[number-1])
 		updateClass('B' + String(number),'bought')
 	}
@@ -443,9 +446,10 @@ function load(save) {
 		game=JSON.parse(atob(save))
 	if(game.mult===undefined) game.mult = 1.5; // lines for making saves back-compatible
 	if(game.microPrestige===undefined) game.microPrestige = {
-		essence:0,
+		essence:new Decimal(0),
 		times:0,
-		essenceMult:1};
+		essenceMult:1,
+		totalEssence:new Decimal(0)};
 	if(game.version===undefined) game.version = 0.2;
 	if(game.Aupgs===undefined) game.Aupgs = {
 		possible:["A1","A2","A3","A4","A5","A6","A7",'A8','A9'],
@@ -521,10 +525,11 @@ function load(save) {
 	game.numUpgradeCost = new Decimal(game.numUpgradeCost)
 	game.clickPoints.maxCPCost = new Decimal(game.clickPoints.maxCPCost)
 	game.clickPoints.secCPCost = new Decimal(game.clickPoints.secCPCost)
+	game.microPrestige.essence = new Decimal(game.microPrestige.essence)
 	update("numDisplay",formatDecimal(game.num));
 	update("notationDisplay",game.notation);
 	update("multDisplay",getCurrentClickAmt());
-	update("microEssenceDisplay",game.microPrestige.essence);
+	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
 	update('RepeatACost',format(game.Aupgs.repeatable.cost))
 	update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	update('numCost',formatDecimal(game.numUpgradeCost))
@@ -582,11 +587,11 @@ function updateThings() { // various updates on each tick
 			showElement("microPrestigeElement");
 		}
 		else {
-			update('ueOnReset',format(getMicroEssenceAmt(game.num)))
+			update('ueOnReset',formatDecimal(getMicroEssenceAmt(game.num)))
 			showElement("microReset");
 		}
 	}
-	update("microEssenceDisplay",format(game.microPrestige.essence));
+	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
         updateBaseClick()
 	updateCosts()
 	update('A6power',format(1 + Math.pow(game.microPrestige.essence,0.3)))
@@ -602,7 +607,7 @@ function updateThings() { // various updates on each tick
 	update('buttonClicks',format(game.buttonClicks))
 	update('microPrestiges',format(game.microPrestige.times))
 	update('microTime',formatTime(game.timeInMicroPrestige))
-	update('totalue',format(game.microPrestige.totalEssence))
+	update('totalue',formatDecimal(game.microPrestige.totalEssence))
 	updateButtons()
 }
 
