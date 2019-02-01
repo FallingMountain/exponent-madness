@@ -116,6 +116,70 @@ function microPrestige() {
 	update('maxCP',format(game.clickPoints.maxClickPoints))
 	update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
 }
+function milliPrestige() {
+	showElement("milliEssenceInfo");
+	showElement("milliPrestigeTab");
+	showElement("increaseNumber");
+	hideElement("microPrestigeElement");
+	hideElement('microReset')
+	hideElement('breakNumeralsTab')
+	var adding = getMilliEssenceAmt(game.microPrestige.essence)
+	game = {
+                num:1,
+		numUpgradeCost:new Decimal(1000),
+		buttonClicks: game.buttonClicks,
+		secondsPlayed:game.secondsPlayed,
+		timeInMicroPrestige:0,
+		timeInMilliPrestige:0,
+		numUpgradeBoost:1,
+		numeralsBroken:false,
+                mult: 1.5,
+                countdown: 0,
+		clickPoints:{
+			clickPoints: 0,
+			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
+			clickPointsPerSec: game.Aupgs.upgrades.includes('A5')? 3:1,
+			maxCPCost:new Decimal(1000),
+			secCPCost:new Decimal(1e10),
+			CPPerUpgrade: game.Aupgs.upgrades.includes('A3')? 2:1,
+			CPPerSecUpgrade: game.Bupgs.upgrades.includes('B9')? 1.5:1
+		},
+		
+               	microPrestige:{
+                        essence: new Decimal(0),
+                        times:0,
+                        essenceMult:1,
+			totalEssence: new Decimal(0),
+		},
+		milliPrestige:{
+			essence: game.milliPrestige.essence + adding,
+			times:game.milliPrestige.times + 1,
+			totalEssence: game.milliPrestige.totalEssence + adding
+		},
+                notation: game.notation,
+                version:game.version,
+                Aupgs:{
+			possible:["A1","A2","A3","A4","A5","A6","A7",'A8','A9'],
+			cost:[       1,   1,   2,   5,  10, 14,  18,  50,  100],
+			repeatable:{
+				amount:0,
+				cost:25,
+				costMult:1.5
+			},
+			upgrades:[]//the var for storing the stuff
+		},
+		Bupgs:{
+			possible:['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'],
+			cost:[     160,350, 720,1500,2500, 4000,18000,1e5,2.4e5, 8e5,2.5e6],
+			upgrades:[]
+		},
+		Cupgs:game.Cupgs
+        }
+	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgrade
+        updateBaseClick()
+	update('maxCP',format(game.clickPoints.maxClickPoints))
+	update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
+}
 function updateClass(what,whatClass) {
 	var element = document.getElementById(what)
 	element.className = ''
