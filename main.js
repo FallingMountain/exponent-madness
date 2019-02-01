@@ -228,7 +228,7 @@ function updateButtons() {
 		}
 	}
 	for(i=0;i<game.Cupgs.possible.length;i++) {
-		if(game.miliPrestige.essence >= (game.Bupgs.cost[i]) && !(game.Cupgs.upgrades.includes('C'+String(i+1)))) {
+		if(game.milliPrestige.essence >= (game.Bupgs.cost[i]) && !(game.Cupgs.upgrades.includes('C'+String(i+1)))) {
 			updateClass('C'+String(i+1),'buyable')
 		}
 		else if(game.milliPrestige.essence<(game.Bupgs.cost[i]) && !(game.Cupgs.upgrades.includes('C'+String(i+1)))) {
