@@ -14,6 +14,7 @@
 		<button class = 'button unbuyable' onclick = 'switchTab("stats")'>Statistics</button>
                 <button id="microPrestigeTab" class="button unbuyable" style="display:none" onclick="switchTab('microprestige')">Micro Prestige</button>
                 <button id = 'breakNumeralsTab' class = 'button unbuyable' style = 'display:none' onclick = "switchTab('breaknumerals')">Break Numerals</button>
+		<button id = 'milliPrestigeTab' class = 'button unbuyable' style = 'display:none' onclick = 'switchTab("milliprestige")'>Milli Prestige</button>
 		<div id="main" style="display:inline-block">
                         <div id="increaseNumber">
                                 <button class="button unbuyable" onclick="step()">Multiply the number by <div id="multDisplay">1.5</div> for 3 Click Points</button>
@@ -31,6 +32,7 @@
                                 <button class="button unbuyable" onclick="microPrestige()">Reset your number, but get 1 Micro essence for upgrades.</button>
                         </div>
                         <button class = 'button unbuyable' onclick = 'microPrestige()' style = 'display:none' id = 'microReset'>Reset your number, but gain <div id = 'ueOnReset'>1</div> Micro Essence</button>
+			<button class = 'button unbuyable' onclick = 'milliPrestige()' style = 'display:none' id = 'milliReset'>Reset your number, micro essence, and A and B upgrades, but gain <div id = 'meOnReset'>1</div>Milli Essence</button>
                 </div>
                 <div id="options" style="display:none">
                         <button class="button unbuyable" onclick="save()">Save</button>
@@ -85,6 +87,20 @@
 				<tr>
 					<td><button class = 'button unbuyable' onclick = 'buyBupg(10)' id='B10'>Unlock button autoclicker. Cost: <div id = 'B10Cost'>800K</div> µE</button></td>
 					<td><button class = 'button unbuyable' onclick = 'buyBupg(11)' id='B11'>Vastly improve micro essence formula. Cost: <div id = 'B11Cost'>2.5M</div> µE</button></td>
+				</tr>
+			</table>
+		</div>
+		<div id = 'milliprestige' style = 'display:none'>
+			<table>
+				<tr>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(1)' id = 'C1'>The base growth factor is now 5x. Cost: 1 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(2)' id = 'C2'>The growth factor is higher based on the order of magnitudes the number has (1OoM=2%, 3OoM=4%, 6OoM, 10OoM…). Removes the effect of B3. Cost: 5 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(3)' id = 'C3'>CP/s is multiplied by 5/3. Cost: 20 mE</button></td>
+				</tr>
+				<tr>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(4)' id = 'C4'>The growth factor is higher based on time spent this Milli Prestige (1+log(seconds)/200). Cost:80 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(5)' id = 'C5'>Max CP is now doubled again. Cost: 256 mE</button></td>
+					<td><button class = 'button unbuyable' onclick = 'buyCupg(6)' id = 'C6'>Unlock Milli Challenges. Cost: 640 mE</button></td>
 				</tr>
 			</table>
 		</div>
