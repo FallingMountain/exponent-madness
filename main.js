@@ -388,7 +388,7 @@ function fixNumerals() {
 }
 //C Section
 function getMilliEssenceAmt(num) {
-	return Math.round(Math.pow(Math.ln(num/1.79e308)/Math.ln(1.2), 0.5)))
+	return Math.round(Math.pow(Math.ln(num/1.79e308)/Math.ln(1.2), 0.5))
 }
 
 //below is all the display funcs
