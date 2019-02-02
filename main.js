@@ -388,7 +388,7 @@ function fixNumerals() {
 }
 //C Section
 function getMilliEssenceAmt(num) {
-	return num.div(1.79e308).log(1.2).pow(0.5)
+	return Math.pow(num.div(1.79e308).log(1.2),0.5)
 }
 
 //below is all the display funcs
