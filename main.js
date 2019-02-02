@@ -213,7 +213,7 @@ function updateButtons() {
 			updateClass('A'+String(i+1),'unbuyable')
 		}
 	}
-	if(game.microPrestige.essence.gte(game.Aupgs.repeatable.cost) {
+	if(game.microPrestige.essence.gte(game.Aupgs.repeatable.cost)) {
 		updateClass('AR','buyable')
 	}
 	else {
