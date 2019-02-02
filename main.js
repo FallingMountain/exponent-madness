@@ -388,7 +388,7 @@ function fixNumerals() {
 }
 //C Section
 function getMilliEssenceAmt(num) {
-	return Math.round(Math.pow(Math.log(num/1.79e308)/Math.log(1.2), 0.5))
+	return num.div(1.79e308).log(1.2).pow(0.5)
 }
 
 //below is all the display funcs
@@ -701,7 +701,7 @@ function updateThings() { // various updates on each tick
 	}
 	if(game.microPrestige.essence.gte(1.79e308)) {
 		showElement('milliReset')
-		update('meOnReset',format(getMilliEssenceAmt(game.num)))
+		update('meOnReset',format(getMilliEssenceAmt(game.microPrestige.essence)))
 	}
 	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
         updateBaseClick()
