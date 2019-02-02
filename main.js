@@ -137,12 +137,12 @@ function milliPrestige() {
                 countdown: 0,
 		clickPoints:{
 			clickPoints: 0,
-			maxClickPoints: game.Aupgs.upgrades.includes('A3')? 6:3,
-			clickPointsPerSec: game.Aupgs.upgrades.includes('A5')? 3:1,
+			maxClickPoints: 3,
+			clickPointsPerSec: 1,
 			maxCPCost:new Decimal(1000),
 			secCPCost:new Decimal(1e10),
-			CPPerUpgrade: game.Aupgs.upgrades.includes('A3')? 2:1,
-			CPPerSecUpgrade: game.Bupgs.upgrades.includes('B9')? 1.5:1
+			CPPerUpgrade: 1,
+			CPPerSecUpgrade: 1
 		},
 		
                	microPrestige:{
@@ -175,7 +175,6 @@ function milliPrestige() {
 		},
 		Cupgs:game.Cupgs
         }
-	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgrade
         updateBaseClick()
 	update('maxCP',format(game.clickPoints.maxClickPoints))
 	update('cpPerSec',format(game.clickPoints.clickPointsPerSec))
