@@ -37,7 +37,7 @@ function getDefaultSave(){
 			cost:[       1,   1,   2,   5,  10, 14,  18,  50,  100],
 			repeatable:{
 				amount:0,
-				cost:25,
+				cost:new Decimal(25),
 				costMult:1.5
 			},
 			upgrades:[]//the var for storing the stuff
@@ -213,7 +213,7 @@ function updateButtons() {
 			updateClass('A'+String(i+1),'unbuyable')
 		}
 	}
-	if(game.microPrestige.essence >= game.Aupgs.repeatable.cost) {
+	if(game.microPrestige.essence.gte(game.Aupgs.repeatable.cost) {
 		updateClass('AR','buyable')
 	}
 	else {
@@ -338,9 +338,8 @@ function buyRepeatA(){
 		game.microPrestige.essence = game.microPrestige.essence.sub(cost)
 		game.microPrestige.essenceMult *= 1.1
 		game.Aupgs.repeatable.amount += 1
-		game.Aupgs.repeatable.cost *= game.Aupgs.repeatable.costMult
-		game.Aupgs.repeatable.cost = Math.floor(game.Aupgs.repeatable.cost)
-		update('RepeatACost',format(game.Aupgs.repeatable.cost))
+		game.Aupgs.repeatable.cost = game.Aupgs.repeatable.cost.mul(game.Aupgs.repeatable.costMult)
+		update('RepeatACost',formatDecimal(game.Aupgs.repeatable.cost))
 		update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	}
 }
@@ -629,12 +628,13 @@ function load(save) {
 	game.clickPoints.secCPCost = new Decimal(game.clickPoints.secCPCost)
 	game.microPrestige.essence = new Decimal(game.microPrestige.essence)
 	game.microPrestige.totalEssence = new Decimal(game.microPrestige.totalEssence)
+	game.Aupgs.repeatable.cost = new Decimal(game.Aupgs.repeatable.cost)
 	update("numDisplay",formatDecimal(game.num));
 	update("notationDisplay",game.notation);
 	update("multDisplay",getCurrentClickAmt());
 	update("microEssenceDisplay",formatDecimal(game.microPrestige.essence));
 	update('milliEssenceDisplay',format(game.milliPrestige.essence))
-	update('RepeatACost',format(game.Aupgs.repeatable.cost))
+	update('RepeatACost',formatDecimal(game.Aupgs.repeatable.cost))
 	update('microEssenceMult',format(Math.floor(game.microPrestige.essenceMult)))
 	update('numCost',formatDecimal(game.numUpgradeCost))
 	update('maxCPCost',formatDecimal(game.clickPoints.maxCPCost))
