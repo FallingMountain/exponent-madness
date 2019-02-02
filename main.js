@@ -125,7 +125,7 @@ function milliPrestige() {
 	hideElement('breakNumeralsTab')
 	var adding = getMilliEssenceAmt(game.microPrestige.essence)
 	game = {
-                num:1,
+                num:new Decimal(1),
 		numUpgradeCost:new Decimal(1000),
 		buttonClicks: game.buttonClicks,
 		secondsPlayed:game.secondsPlayed,
