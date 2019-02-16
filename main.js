@@ -66,6 +66,7 @@ function updateBaseClick(){
         if (game.Aupgs.upgrades.includes("A4")) game.mult = 2.5
 	if(game.Bupgs.upgrades.includes('B1')) game.mult = 3
 	if(game.Bupgs.upgrades.includes('B5')) game.mult = 4
+	if(game.Bupgs.upgrades.includes('C1')) game.mult = 5
 }
 
 function microPrestige() {
@@ -111,6 +112,8 @@ function microPrestige() {
 	if(game.microPrestige.times >= 100) {
 		showElement('breakNumeralsTab')
 	}
+	if(game.Cupgs.upgrades.includes('C3')) game.clickPoints.CPPerSecUpgrade *= 1.67
+	if(game.Cupgs.upgrades.includes('C5')) game.clickPoints.CPPerUpgrade *= 2
 	game.clickPoints.clickPointsPerSec *= game.clickPoints.CPPerSecUpgrade
         updateBaseClick()
 	update('maxCP',format(game.clickPoints.maxClickPoints))
@@ -141,8 +144,8 @@ function milliPrestige() {
 			clickPointsPerSec: 1,
 			maxCPCost:new Decimal(1000),
 			secCPCost:new Decimal(1e10),
-			CPPerUpgrade: 1,
-			CPPerSecUpgrade: 1
+			CPPerUpgrade: game.Cupgs.upgrades.includes('C5')? 2:1,
+			CPPerSecUpgrade: game.Cupgs.upgrades.includes('C3')? 1.67:1
 		},
 		
                	microPrestige:{
@@ -245,8 +248,9 @@ function getTriangularNumber(num) {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num.gt(1e5)) mult = 1 + 0.0025*Math.max(0,Math.floor(game.num.log(10))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3'))) mult *= 1+ 0.012*getTriangularNumber(Math.max(game.num.log(10),0))
-	if(game.Bupgs.upgrades.includes('B3')) mult *= 1 + 0.015 * getTriangularNumber(Math.max(game.num.log(10),0))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3') || game.Cupgs.upgrades.includes('C2'))) mult *= 1+ 0.012*getTriangularNumber(Math.max(game.num.log(10),0))
+	if(game.Bupgs.upgrades.includes('B3') && !(game.Cupgs.upgrades.includes('C2'))) mult *= 1 + 0.015 * getTriangularNumber(Math.max(game.num.log(10),0))
+	if(game.Cupgs.upgrades.includes('C2')) mult *= 1 + 0.02 * getTriangularNumber(Math.max(game.num.log(10),0))
 	return mult
 }
 
@@ -260,6 +264,7 @@ function getCurrentClickAmt(){
 	if(game.Aupgs.upgrades.includes('A9')) base *= 1 + Math.log10(game.clickPoints.clickPoints+1)/10
 	if(game.Bupgs.upgrades.includes('B4')) base *= 1 + game.microPrestige.essence.add(1).log(10)/300
 	if(game.Bupgs.upgrades.includes('B8')) base *= 1 + Math.log10(game.buttonClicks + 1)/310
+	if(game.Cupgs.upgrades.includes('C4')) base *= 1 + Math.log10(game.timeInMilliPrestige)/200
         return base
 }
 
@@ -387,6 +392,14 @@ function fixNumerals() {
 //C Section
 function getMilliEssenceAmt(num) {
 	return Math.pow(num.div(1.79e308).log(1.2),0.5)
+}
+function buyCupg(number) {
+	var cost = game.Cupgs.cost[number-1]
+	if (game.milliPrestige.essence.gte(cost) && !(game.Cupgs.upgrades.includes(game.Cupgs.possible[number-1]))){
+		game.milliPrestige.essence = game.milliPrestige.essence.sub(cost)
+		game.Cupgs.upgrades.push(game.Cupgs.possible[number-1])
+		updateClass('C' + String(number),'bought')
+	}
 }
 
 //below is all the display funcs
