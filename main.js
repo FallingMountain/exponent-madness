@@ -248,9 +248,9 @@ function getTriangularNumber(num) {
 function getPercentageGrowthFactor(){
         var mult = 1
 	if (game.num.gt(1e5)) mult = 1 + 0.0025*Math.max(0,Math.floor(game.num.log(10))-5) // the alway additive mult
-        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3') || game.Cupgs.upgrades.includes('C2'))) mult *= 1+ 0.012*getTriangularNumber(Math.max(game.num.log(10),0))
-	if(game.Bupgs.upgrades.includes('B3') && !(game.Cupgs.upgrades.includes('C2'))) mult *= 1 + 0.015 * getTriangularNumber(Math.max(game.num.log(10),0))
-	if(game.Cupgs.upgrades.includes('C2')) mult *= 1 + 0.02 * getTriangularNumber(Math.max(game.num.log(10),0))
+        if (game.Aupgs.upgrades.includes("A2") && !(game.Bupgs.upgrades.includes('B3') || game.Cupgs.upgrades.includes('C2'))) mult *= 1+ 0.012*getTriangularNumber(Math.max(Math.floor(game.num.log(10)),0))
+	if(game.Bupgs.upgrades.includes('B3') && !(game.Cupgs.upgrades.includes('C2'))) mult *= 1 + 0.015 * getTriangularNumber(Math.max(Math.floor(game.num.log(10)),0))
+	if(game.Cupgs.upgrades.includes('C2')) mult *= 1 + 0.02 * getTriangularNumber(Math.max(Math.floor(game.num.log(10)),0))
 	return mult
 }
 
